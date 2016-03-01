@@ -1,3 +1,17 @@
+var BugRow = React.createClass({
+	render: function(){
+		return (
+			<tr>
+				<td>{this.props.id}</td>
+				<td>{this.props.status}</td>
+				<td>{this.props.priority}</td>
+				<td>{this.props.owner}</td>
+				<td>{this.props.title}</td>
+			</tr>
+		)
+	}
+});
+
 var BugFilter = React.createClass({
 	render: function(){
 		return (
@@ -9,7 +23,21 @@ var BugFilter = React.createClass({
 var BugTable = React.createClass({
 	render: function(){
 		return (
-			<div>This component will be a table that lists the bugs</div>
+			<table>
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Status</th>
+						<th>Priority</th>
+						<th>Owner</th>
+						<th>Title</th>
+					</tr>
+				</thead>
+				<tbody>
+					<BugRow id={1} priority="P1" status="Open" owner="Tester" title="App is a piece of junk." />
+					<BugRow id={2} priority="P2" status="New" owner="Testes" title="Looks like crap." />
+				</tbody>
+			</table>
 		)
 	}
 });
