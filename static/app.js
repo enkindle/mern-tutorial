@@ -1,129 +1,155 @@
+var bugData = [// array of bug objects
+{
+	id: 1,
+	priority: 'P1',
+	status: 'Open',
+	owner: 'Tester',
+	title: 'App crashes constantly...I literally can\'t even'
+}, {
+	id: 2,
+	priority: 'P2',
+	status: 'New',
+	owner: 'Testes',
+	title: 'Looks like crap'
+}];
+
+// bug row
 var BugRow = React.createClass({
-	displayName: "BugRow",
+	displayName: 'BugRow',
 
 	render: function () {
 		return React.createElement(
-			"tr",
+			'tr',
 			null,
 			React.createElement(
-				"td",
+				'td',
 				null,
-				this.props.id
+				this.props.bug.id
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
-				this.props.status
+				this.props.bug.status
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
-				this.props.priority
+				this.props.bug.priority
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
-				this.props.owner
+				this.props.bug.owner
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
-				this.props.title
+				this.props.bug.title
 			)
 		);
 	}
 });
 
+// bug filtering component
 var BugFilter = React.createClass({
-	displayName: "BugFilter",
+	displayName: 'BugFilter',
 
 	render: function () {
 		return React.createElement(
-			"div",
+			'div',
 			null,
-			"This component will be a bug filter"
+			'This component will be a bug filter'
 		);
 	}
 });
 
+// bug display table component
 var BugTable = React.createClass({
-	displayName: "BugTable",
+	displayName: 'BugTable',
 
 	render: function () {
+		var bugRows = this.props.bugs.map(function (bug) {
+			return React.createElement(BugRow, { key: bug.id, bug: bug });
+		});
 		return React.createElement(
-			"table",
+			'table',
 			null,
 			React.createElement(
-				"thead",
+				'thead',
 				null,
 				React.createElement(
-					"tr",
+					'tr',
 					null,
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Id"
+						'Id'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Status"
+						'Status'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Priority"
+						'Priority'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Owner"
+						'Owner'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Title"
+						'Title'
 					)
 				)
 			),
 			React.createElement(
-				"tbody",
+				'tbody',
 				null,
-				React.createElement(BugRow, { id: 1, priority: "P1", status: "Open", owner: "Tester", title: "App is a piece of junk." }),
-				React.createElement(BugRow, { id: 2, priority: "P2", status: "New", owner: "Testes", title: "Looks like crap." })
+				bugRows
 			)
 		);
 	}
 });
 
+// add a bug component
 var BugAdd = React.createClass({
-	displayName: "BugAdd",
+	displayName: 'BugAdd',
 
 	render: function () {
 		return React.createElement(
-			"div",
+			'div',
 			null,
-			"This component will be a form to add new bugs"
+			'This component will be a form to add new bugs'
 		);
 	}
 });
 
+// the entire bug tracking application
 var BugList = React.createClass({
-	displayName: "BugList",
+	displayName: 'BugList',
+
+	getInitialState: function () {
+		return { bugs: bugData };
+	},
 
 	render: function () {
 		return React.createElement(
-			"div",
+			'div',
 			null,
 			React.createElement(
-				"h1",
+				'h1',
 				null,
-				"Bug Tracker"
+				'Bug Tracker'
 			),
 			React.createElement(BugFilter, null),
-			React.createElement("hr", null),
-			React.createElement(BugTable, null),
-			React.createElement("hr", null),
+			React.createElement('hr', null),
+			React.createElement(BugTable, { bugs: this.state.bugs }),
+			React.createElement('hr', null),
 			React.createElement(BugAdd, null)
 		);
 	}

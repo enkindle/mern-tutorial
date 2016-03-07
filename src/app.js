@@ -1,17 +1,36 @@
+var bugData = [		// array of bug objects
+	{
+		id : 1,
+		priority : 'P1',
+		status : 'Open',
+		owner : 'Tester',
+		title : 'App crashes constantly...I literally can\'t even'
+	},
+	{
+		id : 2,
+		priority : 'P2',
+		status : 'New',
+		owner : 'Testes',
+		title : 'Looks like crap'
+	}
+];
+
+// bug row
 var BugRow = React.createClass({
 	render: function(){
 		return (
 			<tr>
-				<td>{this.props.id}</td>
-				<td>{this.props.status}</td>
-				<td>{this.props.priority}</td>
-				<td>{this.props.owner}</td>
-				<td>{this.props.title}</td>
+				<td>{this.props.bug.id}</td>
+				<td>{this.props.bug.status}</td>
+				<td>{this.props.bug.priority}</td>
+				<td>{this.props.bug.owner}</td>
+				<td>{this.props.bug.title}</td>
 			</tr>
 		)
 	}
 });
 
+// bug filtering component
 var BugFilter = React.createClass({
 	render: function(){
 		return (
@@ -20,8 +39,12 @@ var BugFilter = React.createClass({
 	}
 });
 
+// bug display table component
 var BugTable = React.createClass({
 	render: function(){
+		var bugRows = this.props.bugs.map(function(bug){
+			return <BugRow key={bug.id} bug={bug} />
+		});
 		return (
 			<table>
 				<thead>
@@ -34,14 +57,14 @@ var BugTable = React.createClass({
 					</tr>
 				</thead>
 				<tbody>
-					<BugRow id={1} priority="P1" status="Open" owner="Tester" title="App is a piece of junk." />
-					<BugRow id={2} priority="P2" status="New" owner="Testes" title="Looks like crap." />
+					{bugRows}
 				</tbody>
 			</table>
 		)
 	}
 });
 
+// add a bug component
 var BugAdd = React.createClass({
 	render: function(){
 		return (
@@ -50,14 +73,21 @@ var BugAdd = React.createClass({
 	}
 });
 
+// the entire bug tracking application
 var BugList = React.createClass({
+	getInitialState : function(){
+		return (
+			{ bugs: bugData }
+		)
+	},
+
 	render: function(){
 		return (
 			<div>
 				<h1>Bug Tracker</h1>
 				<BugFilter />
 				<hr />
-				<BugTable />
+				<BugTable bugs={ this.state.bugs } />
 				<hr />
 				<BugAdd />
 			</div>
