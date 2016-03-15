@@ -18,6 +18,7 @@ var BugRow = React.createClass({
 	displayName: 'BugRow',
 
 	render: function () {
+		console.log('Rendering BugRow:', this.props.bug);
 		return React.createElement(
 			'tr',
 			null,
@@ -55,6 +56,7 @@ var BugFilter = React.createClass({
 	displayName: 'BugFilter',
 
 	render: function () {
+		console.log('Rendering BugFilter');
 		return React.createElement(
 			'div',
 			null,
@@ -68,6 +70,7 @@ var BugTable = React.createClass({
 	displayName: 'BugTable',
 
 	render: function () {
+		console.log('Rendering BugTablem, num items:', this.props.bugs.length);
 		var bugRows = this.props.bugs.map(function (bug) {
 			return React.createElement(BugRow, { key: bug.id, bug: bug });
 		});
@@ -121,6 +124,7 @@ var BugAdd = React.createClass({
 	displayName: 'BugAdd',
 
 	render: function () {
+		console.log('Rendering BugAdd');
 		return React.createElement(
 			'div',
 			null,
@@ -138,6 +142,7 @@ var BugList = React.createClass({
 	},
 
 	render: function () {
+		console.log("Rendering bug list, num items:", this.state.bugs.length);
 		return React.createElement(
 			'div',
 			null,
@@ -149,9 +154,26 @@ var BugList = React.createClass({
 			React.createElement(BugFilter, null),
 			React.createElement('hr', null),
 			React.createElement(BugTable, { bugs: this.state.bugs }),
+			React.createElement(
+				'button',
+				{ onClick: this.testNewBug },
+				'Add Bug'
+			),
 			React.createElement('hr', null),
 			React.createElement(BugAdd, null)
 		);
+	},
+
+	testNewBug: function () {
+		var nextId = this.state.bugs.length + 1;
+		this.addBug({ id: nextId, priority: 'P2', status: 'New', owner: 'Pieata', title: 'Warning on the console' });
+	},
+
+	addBug: function (bug) {
+		console.log('Adding bug:', bug);
+		var bugsModified = this.state.bugs.slice();
+		bugsModified.push(bug);
+		this.setState({ bugs: bugsModified });
 	}
 });
 
