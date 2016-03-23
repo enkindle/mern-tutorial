@@ -128,8 +128,27 @@ var BugAdd = React.createClass({
 		return React.createElement(
 			'div',
 			null,
-			'This component will be a form to add new bugs'
+			React.createElement(
+				'form',
+				{ name: 'bugAdd' },
+				React.createElement('input', { type: 'text', name: 'owner', placeholder: 'Owner' }),
+				React.createElement('input', { type: 'text', name: 'title', placeholder: 'Title' }),
+				React.createElement(
+					'button',
+					{ onClick: this.handleSubmit },
+					'Add Bug'
+				)
+			)
 		);
+	},
+
+	handleSubmit: function (e) {
+		e.preventDefault();
+		var form = document.forms.bugAdd;
+		this.props.addBug({ owner: form.owner.value, title: form.title.value, status: 'New', priority: 'P1' });
+		// Clear the form values
+		form.owner.value = '';
+		form.title.value = '';
 	}
 });
 
@@ -154,24 +173,15 @@ var BugList = React.createClass({
 			React.createElement(BugFilter, null),
 			React.createElement('hr', null),
 			React.createElement(BugTable, { bugs: this.state.bugs }),
-			React.createElement(
-				'button',
-				{ onClick: this.testNewBug },
-				'Add Bug'
-			),
 			React.createElement('hr', null),
-			React.createElement(BugAdd, null)
+			React.createElement(BugAdd, { addBug: this.addBug })
 		);
-	},
-
-	testNewBug: function () {
-		var nextId = this.state.bugs.length + 1;
-		this.addBug({ id: nextId, priority: 'P2', status: 'New', owner: 'Pieata', title: 'Warning on the console' });
 	},
 
 	addBug: function (bug) {
 		console.log('Adding bug:', bug);
 		var bugsModified = this.state.bugs.slice();
+		bug.id = this.state.bugs.length + 1;
 		bugsModified.push(bug);
 		this.setState({ bugs: bugsModified });
 	}
